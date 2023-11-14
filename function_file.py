@@ -108,3 +108,33 @@ def pop_parameters_dict(dataset):
     results =  round(results,2)
     results = results.to_dict('index')
     return results
+
+########## Plotting CEF
+# Player main characteristics
+# Function for plotting group by means
+def groupby_table(dataset,M):
+    #Plotting both perc and accum
+    #Plot both mean  and median as lines
+    fig, (ax1,ax2,ax3,ax4,ax5,ax6,ax7) = plt.subplots(1,7, figsize=(14,8))
+    dataset.plot(x= M, y='id' , kind= 'bar', ax=ax1,fontsize=8)
+    dataset.plot(x=M, y='height_cm' , kind= 'bar', ax=ax2,fontsize=8)
+    dataset.plot(x=M, y='weight_kg', kind = 'bar',ax = ax3,fontsize=8)
+    dataset.plot(x=M, y='overall' , kind= 'bar', ax=ax4,fontsize=8)
+    dataset.plot(x=M, y='potential' , kind= 'bar', ax=ax5,fontsize=8)
+    dataset.plot(x=M, y='international_reputation' , kind= 'bar', ax=ax6,fontsize=8)
+    dataset.plot(x=M, y='age' , kind= 'bar', ax=ax7,fontsize=8)
+
+    plt.xticks(rotation=90)
+    plt.show()
+
+    # Player Finance characteristics
+# Function for plotting group by means
+def groupby_table2(dataset,M):
+    #Plotting both perc and accum
+    #Plot both mean  and median as lines
+    fig, (ax1,ax2,ax3) = plt.subplots(1,3, figsize=(14,8))
+    dataset.plot(x= M, y='id' , kind= 'bar', ax=ax1,fontsize=8)
+    dataset.plot(x=M, y='value_eur' , kind= 'bar', ax=ax2,fontsize=8)
+    dataset.plot(x=M, y='wage_eur', kind = 'bar',ax = ax3,fontsize=8)
+    plt.xticks(rotation=90)
+    plt.show()
