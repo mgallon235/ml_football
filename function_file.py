@@ -32,6 +32,37 @@ def plot_hist_mult(data, var1, var2, bins):
     plt.show()
 
 
+## Plotting Distplots
+def plot_hist_mult_h2(data, var1, var2, hue_var):
+    sns.set(style="darkgrid")
+
+    num_variables = min(var1 * var2, data.shape[1])  # Use the minimum of specified subplots and number of variables
+    var1 = (num_variables + var2 - 1) // var2  # Adjust var1 based on the number of variables
+
+    fig, axes = plt.subplots(var1, var2, sharey=False, figsize=(12, 10), squeeze=False, subplot_kw={'xticks': [], 'yticks': []},
+                             gridspec_kw={'hspace': 0.5, 'wspace': 0.5})
+
+    for i, el in enumerate(list(data.columns.values[:num_variables])):
+        row = i // var2
+        col = i % var2
+
+        # Plot density plot for each category using sns.kdeplot
+        for j, category in enumerate(data[hue_var].unique()):
+            subset = data[data[hue_var] == category]
+            sns.kdeplot(data=subset[el], fill=True, alpha=0.5, label=category, ax=axes[row, col], color=sns.color_palette('husl')[j])
+
+        axes[row, col].set_title(f'Density Plot of {el}', fontsize=12)
+        axes[row, col].set_xlabel(el, fontsize=10)
+        axes[row, col].set_ylabel('Density', fontsize=10)
+        axes[row, col].legend()
+
+    plt.show()
+
+# Example usage
+# Assuming 'data' is your DataFrame, 'var1', 'var2' are subplot dimensions, and 'hue_var' is the categorical variable to hue by.
+# plot_hist_mult_h(data, var1=2, var2=2, hue_var='another_categorical_variable')
+
+
 # Define a function to plot box plots
 def plot_box_mult(data, var1, var2):
     sns.set(style="dark") # Set Seaborn style
@@ -115,17 +146,38 @@ def pop_parameters_dict(dataset):
 def groupby_table(dataset,M):
     #Plotting both perc and accum
     #Plot both mean  and median as lines
-    fig, (ax1,ax2,ax3,ax4,ax5,ax6,ax7) = plt.subplots(1,7, figsize=(14,8))
+    fig, (ax1,ax2,ax3,ax4,ax5,ax6,ax7,ax8) = plt.subplots(1,8, figsize=(14,8))
     dataset.plot(x= M, y='id' , kind= 'bar', ax=ax1,fontsize=8)
     dataset.plot(x=M, y='height_cm' , kind= 'bar', ax=ax2,fontsize=8)
     dataset.plot(x=M, y='weight_kg', kind = 'bar',ax = ax3,fontsize=8)
     dataset.plot(x=M, y='overall' , kind= 'bar', ax=ax4,fontsize=8)
     dataset.plot(x=M, y='potential' , kind= 'bar', ax=ax5,fontsize=8)
     dataset.plot(x=M, y='international_reputation' , kind= 'bar', ax=ax6,fontsize=8)
-    dataset.plot(x=M, y='age' , kind= 'bar', ax=ax7,fontsize=8)
+    dataset.plot(x=M, y='league_level' , kind= 'bar', ax=ax7,fontsize=8)
+    dataset.plot(x=M, y='club_jersey_number' , kind= 'bar', ax=ax8,fontsize=8)
+    
 
     plt.xticks(rotation=90)
     plt.show()
+
+## CEF MEDIAN
+def groupby_table_med(dataset,M):
+#Plotting both perc and accum
+#Plot both mean  and median as lines
+    fig, (ax1,ax2,ax3,ax4,ax5,ax6,ax7,ax8) = plt.subplots(1,8, figsize=(14,8))
+    dataset.plot(x= M, y='id' , kind= 'bar', ax=ax1,fontsize=8,color = 'orange')
+    dataset.plot(x=M, y='height_cm' , kind= 'bar', ax=ax2,fontsize=8,color = 'orange')
+    dataset.plot(x=M, y='weight_kg', kind = 'bar',ax = ax3,fontsize=8,color = 'orange')
+    dataset.plot(x=M, y='overall' , kind= 'bar', ax=ax4,fontsize=8,color = 'orange')
+    dataset.plot(x=M, y='potential' , kind= 'bar', ax=ax5,fontsize=8,color = 'orange')
+    dataset.plot(x=M, y='international_reputation' , kind= 'bar', ax=ax6,fontsize=8,color = 'orange')
+    dataset.plot(x=M, y='league_level' , kind= 'bar', ax=ax7,fontsize=8,color = 'orange')
+    dataset.plot(x=M, y='club_jersey_number' , kind= 'bar', ax=ax8,fontsize=8,color = 'orange')
+    
+
+    plt.xticks(rotation=90)
+    plt.show()
+
 
     # Player Finance characteristics
 # Function for plotting group by means
